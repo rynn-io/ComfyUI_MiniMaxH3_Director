@@ -968,10 +968,10 @@ const _listeners = new Set();
 
 function detectDefaultLocale() {
     try {
-        const nav = (typeof navigator !== "undefined" && (navigator.language || navigator.userLanguage)) || "zh";
+        const nav = (typeof navigator !== "undefined" && (navigator.language || navigator.userLanguage)) || "en";
         return String(nav).toLowerCase().startsWith("zh") ? "zh" : "en";
     } catch {
-        return "zh";
+        return "en";
     }
 }
 
@@ -1019,8 +1019,8 @@ function formatTemplate(str, vars) {
 
 export function t(key, vars) {
     const locale = getLocale();
-    const dict = DICTS[locale] || ZH;
-    const raw = dict[key] ?? ZH[key] ?? key;
+    const dict = DICTS[locale] || EN;
+    const raw = dict[key] ?? EN[key] ?? ZH[key] ?? key;
     return formatTemplate(raw, vars);
 }
 

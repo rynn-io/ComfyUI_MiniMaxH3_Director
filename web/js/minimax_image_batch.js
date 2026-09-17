@@ -457,17 +457,17 @@ export const IMAGE_BATCH_STYLES = `
 .bd-batch-picker{display:none;flex-wrap:wrap;gap:6px;width:100%;box-sizing:border-box;padding:2px 0 6px;flex-shrink:0}
 .bd-batch-picker.visible{display:flex}
 .bd-batch-pick{display:flex;flex-direction:column;gap:2px;min-width:92px;max-width:140px;padding:6px 8px;border:1px solid #333;border-radius:8px;background:#161616;cursor:pointer;color:#ccc;user-select:none}
-.bd-batch-pick:hover{border-color:#4a7a5a}
-.bd-batch-pick.selected{border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35);color:#eafff0}
-.bd-batch-pick.running{border-color:#4fff8f}
+.bd-batch-pick:hover{border-color:#7a2a38}
+.bd-batch-pick.selected{border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35);color:#ffe8ec}
+.bd-batch-pick.running{border-color:#fc033d}
 .bd-batch-pick.run-skipped{opacity:.45}
 .bd-batch-pick-title{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bd-batch-pick-meta{font-size:10px;color:#8aa}
 .bd-batch-pick-thumb{width:100%;height:40px;object-fit:cover;border-radius:4px;background:#0d0d0d;margin-top:2px}
-.bd-batch-run-select.active{background:#1a3a2a;color:#4fff8f;border-color:#4fff8f}
+.bd-batch-run-select.active{background:#3a141c;color:#fc033d;border-color:#fc033d}
 .bd-batch-run-all{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#aaa;cursor:pointer;user-select:none}
 .bd-batch-run-all.hidden{display:none!important}
-.bd-batch-run-all input{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#4fff8f}
+.bd-batch-run-all input{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#fc033d}
 /* Default cap; batch-fill mode overrides via .bd-wrap.bd-batch-fill + JS max-height. */
 .bd-batch-list{display:flex;flex-direction:column;gap:8px;width:100%;max-height:640px;overflow-y:auto;padding-right:2px;min-height:0}
 .bd-batch-card{background:linear-gradient(165deg,#1a1a1a 0%,#141414 55%,#111 100%);border:1px solid #2c2c2c;border-radius:10px;padding:12px 14px;display:grid;gap:10px;align-items:stretch;box-shadow:inset 0 1px 0 rgba(255,255,255,.03);flex:0 0 auto}
@@ -483,18 +483,18 @@ export const IMAGE_BATCH_STYLES = `
 .bd-batch-plain .bd-batch-preview,.bd-batch-source .bd-batch-preview,.bd-batch-fl2v .bd-batch-preview,.bd-batch-refs:not(.bd-batch-r2v) .bd-batch-preview{border-radius:10px;border-color:#262626;background:#0c0c0c}
 /* ——— r2v asset stage (polished) ——— */
 .bd-batch-card.bd-batch-r2v{display:flex;flex-direction:column;gap:12px;padding:14px 16px;background:linear-gradient(165deg,#1c1c1c 0%,#141414 52%,#111 100%);border:1px solid #2c2c2c;border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);align-items:stretch}
-.bd-batch-card.running{border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.25)}
+.bd-batch-card.running{border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.25)}
 .bd-batch-card.done{border-color:#3a5080}
 .bd-batch-card.run-skipped{opacity:.42}
 /* selected / run-on must win over .done so timeline ↔ card selection stays visible */
-.bd-batch-card.selected,.bd-batch-card.selected.done{border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35)}
-.bd-batch-card.run-on:not(.run-skipped){border-color:#3a7a55}
-.bd-batch-card.selected.run-on,.bd-batch-card.selected.run-on.done{border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.4)}
+.bd-batch-card.selected,.bd-batch-card.selected.done{border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35)}
+.bd-batch-card.run-on:not(.run-skipped){border-color:#7a2a3a}
+.bd-batch-card.selected.run-on,.bd-batch-card.selected.run-on.done{border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.4)}
 .bd-batch-head{grid-column:1/-1;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap}
 .bd-batch-r2v .bd-batch-head{padding-bottom:2px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:2px;flex-shrink:0}
 .bd-batch-head b{color:#ccc;font-size:11px}
 .bd-batch-r2v .bd-batch-head b{color:#f0f0f0;font-size:13px;font-weight:650;letter-spacing:.02em}
-.bd-batch-run-check{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#4fff8f;flex-shrink:0}
+.bd-batch-run-check{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#fc033d;flex-shrink:0}
 .bd-batch-continuity{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#9ab;cursor:pointer;user-select:none;flex-shrink:0}
 .bd-batch-continuity input{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#6ab0ff;flex-shrink:0}
 .bd-batch-segtask{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#aaa;flex-shrink:0}
@@ -531,7 +531,7 @@ export const IMAGE_BATCH_STYLES = `
 .bd-r2v-section-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .bd-r2v-section-count{font-size:11px;color:#7d7d7d;font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .bd-r2v-pick-existing{background:transparent;border:1px solid #3a3a3a;color:#c8c8c8;border-radius:6px;padding:2px 8px;font-size:10px;cursor:pointer;line-height:1.4;white-space:nowrap}
-.bd-r2v-pick-existing:hover{border-color:#4fff8f;color:#4fff8f}
+.bd-r2v-pick-existing:hover{border-color:#fc033d;color:#fc033d}
 .bd-r2v-pick-existing:disabled{opacity:.4;cursor:not-allowed;border-color:#333;color:#666}
 .bd-r2v-common-inherit{border-style:dashed;border-color:#3a4a5a;background:#0a1218}
 .bd-r2v-common-inherit .bd-r2v-section-title{color:#9ab;text-transform:none;letter-spacing:.02em;font-size:11px}
@@ -555,7 +555,7 @@ export const IMAGE_BATCH_STYLES = `
 .bd-batch-r2v .bd-batch-ref.has-img{border-color:#3a3a3a;background:#000}
 .bd-batch-ref img{width:100%;height:100%;object-fit:cover}
 .bd-batch-r2v .bd-batch-ref img{width:100%;height:100%;object-fit:contain;object-position:center;background:#000}
-.bd-batch-r2v .bd-batch-ref .dot{position:absolute;left:6px;top:6px;width:7px;height:7px;border-radius:50%;background:#4fff8f;box-shadow:0 0 0 2px rgba(0,0,0,.5);z-index:2}
+.bd-batch-r2v .bd-batch-ref .dot{position:absolute;left:6px;top:6px;width:7px;height:7px;border-radius:50%;background:#fc033d;box-shadow:0 0 0 2px rgba(0,0,0,.5);z-index:2}
 .bd-batch-r2v .bd-batch-ref .cap{position:absolute;left:0;right:0;bottom:0;padding:14px 6px 5px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.78));color:#ddd;font-size:10px;font-weight:600;text-align:center;pointer-events:none;z-index:2}
 .bd-batch-r2v .bd-batch-ref:not(.has-img) .cap{position:static;padding:0;background:none;color:#666;font-weight:500}
 .bd-batch-ref .x{position:absolute;top:0;right:2px;color:#f88;font-size:10px;display:none;line-height:1}
@@ -577,7 +577,7 @@ export const IMAGE_BATCH_STYLES = `
 .bd-batch-r2v .bd-batch-audio .bd-r2v-thumb{width:100%;height:44px;border-radius:6px}
 .bd-r2v-thumb-video video{width:100%;height:100%;object-fit:cover;display:block;background:#000;pointer-events:none}
 .bd-r2v-play{position:absolute;inset:0;margin:auto;width:28px;height:28px;border:0;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;font-size:12px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;z-index:2}
-.bd-r2v-play:hover{background:rgba(20,20,20,.82);color:#4fff8f}
+.bd-r2v-play:hover{background:rgba(20,20,20,.82);color:#fc033d}
 .bd-batch-r2v .has-audio .bd-r2v-thumb,.bd-batch-r2v .has-video .bd-r2v-thumb{border-color:#3a5a45;color:#8fdfb0;background:#152018}
 .bd-r2v-meta{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
 .bd-batch-r2v .bd-batch-video .bd-r2v-meta,.bd-batch-r2v .bd-batch-audio .bd-r2v-meta{flex-direction:row;align-items:center;justify-content:space-between;gap:4px}
@@ -590,7 +590,7 @@ export const IMAGE_BATCH_STYLES = `
 .bd-batch-r2v .bd-batch-audio audio.bd-r2v-media{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
 .bd-r2v-progress{display:none;width:100%;height:3px;border-radius:99px;background:#222;overflow:hidden;cursor:pointer}
 .bd-r2v-progress.active{display:block}
-.bd-r2v-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#2a6b4a,#4fff8f);border-radius:99px;transition:width .08s linear}
+.bd-r2v-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#8a1226,#fc033d);border-radius:99px;transition:width .08s linear}
 .bd-r2v-progress.playing .bd-r2v-progress-fill{transition:none}
 .bd-batch-audio .name,.bd-batch-video .name{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ad;font-size:9px;padding:0 2px}
 .bd-batch-audio .x,.bd-batch-video .x{position:absolute;top:1px;right:3px;color:#f88;font-size:12px;display:none;line-height:1}

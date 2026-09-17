@@ -821,24 +821,13 @@ function applyDirectorWidgetLabels(node) {
 }
 
 function drawGroupHeader(ctx, node, widget_width, y, H, label) {
-    const margin = 10;
-    const barH = Math.max(18, H - 4);
-    ctx.fillStyle = "#2e2e2e";
-    ctx.strokeStyle = "#555";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    if (ctx.roundRect) {
-        ctx.roundRect(margin, y + 2, widget_width - margin * 2, barH, 4);
-    } else {
-        ctx.rect(margin, y + 2, widget_width - margin * 2, barH);
-    }
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = "#d8dce8";
-    ctx.font = "600 11px ui-sans-serif, system-ui, sans-serif";
+    ctx.save();
+    ctx.fillStyle = (typeof LiteGraph !== "undefined" && LiteGraph.WIDGET_SECONDARY_TEXT_COLOR) || "#888";
+    ctx.font = (typeof LiteGraph !== "undefined" && LiteGraph.NODE_TEXT_SIZE) ? `${LiteGraph.NODE_TEXT_SIZE}px sans-serif` : "11px sans-serif";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
-    ctx.fillText(label, margin + 10, y + 2 + barH / 2);
+    ctx.fillText(label, 15, y + H * 0.5);
+    ctx.restore();
 }
 
 function makeGroupHeaderWidget(inputName, inputData) {
@@ -848,18 +837,12 @@ function makeGroupHeaderWidget(inputName, inputData) {
     const el = document.createElement("div");
     el.className = "bd-widget-group";
     el.textContent = label;
-    el.style.cssText = [
-        "width:100%;box-sizing:border-box;margin:8px 0 4px;padding:6px 10px",
-        "border:1px solid #555;border-left:3px solid #7a9cff;border-radius:4px",
-        "color:#d8dce8;font-size:11px;font-weight:600;letter-spacing:.02em",
-        "background:linear-gradient(180deg,#2e2e2e 0%,#242424 100%)",
-        "pointer-events:none;user-select:none",
-    ].join(";");
+    el.style.cssText = "width:100%;color:#888;font-size:11px;font-family:sans-serif;pointer-events:none;user-select:none";
     return {
         name: inputName,
         type: "BDGROUP",
         value: label,
-        label: "",
+        label: label,
         element: el,
         options: opts,
         _bdGroupHeader: true,
@@ -870,7 +853,8 @@ function makeGroupHeaderWidget(inputName, inputData) {
             drawGroupHeader(ctx, node, widget_width, y, H, text);
         },
         computeSize(width) {
-            return [width, 26];
+            const h = (typeof LiteGraph !== "undefined" && LiteGraph.NODE_WIDGET_HEIGHT) || 20;
+            return [width, h];
         },
         mouse() {
             return false;
@@ -957,15 +941,15 @@ const STYLES = `
 .bd-modal-list.hidden{display:none}
 .bd-modal-item{padding:7px 8px;border-radius:4px;cursor:pointer;color:#ccc;font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid transparent}
 .bd-modal-item:hover{background:#252525;color:#eee}
-.bd-modal-item.selected{background:#2a2a2a;border-color:#4fff8f;color:#fff}
+.bd-modal-item.selected{background:#2a2a2a;border-color:#fc033d;color:#fff}
 .bd-modal-actions{display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
 .bd-media-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .bd-media-head .bd-modal-title{flex:1;min-width:0;padding-top:4px}
 .bd-media-head-actions{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
 .bd-media-status{color:#999;font-size:11px;line-height:1.4;min-height:15px}
 .bd-media-modal{max-width:860px}
-.bd-media-modal .bd-btn-primary{background:#2f9e44;border-color:#3cb054;color:#fff}
-.bd-media-modal .bd-btn-primary:hover{background:#38b04a;border-color:#4bc45c;color:#fff}
+.bd-media-modal .bd-btn-primary{background:#d90234;border-color:#fc033d;color:#fff}
+.bd-media-modal .bd-btn-primary:hover{background:#ea0238;border-color:#ff2458;color:#fff}
 .bd-media-body{display:grid;grid-template-columns:minmax(320px,1.2fr) minmax(240px,.8fr);gap:10px;min-height:280px}
 .bd-media-left,.bd-media-right{display:flex;flex-direction:column;gap:8px;min-width:0}
 .bd-media-table{width:100%;min-height:220px;max-height:320px;background:#141414;border:1px solid #333;border-radius:6px;color:#eee;box-sizing:border-box;flex:1;display:flex;flex-direction:column;overflow:hidden;outline:none}
@@ -991,13 +975,13 @@ const STYLES = `
 .bd-media-preview-empty{padding:18px;color:#666;font-size:11px;line-height:1.45;text-align:center}
 .bd-media-meta{display:flex;flex-direction:column;gap:4px;color:#9a9a9a;font-size:10px;line-height:1.45;word-break:break-all}
 .bd-media-view-toggle{display:inline-flex;gap:4px}
-.bd-media-view-toggle .bd-btn.active{border-color:#4fff8f;color:#4fff8f}
+.bd-media-view-toggle .bd-btn.active{border-color:#fc033d;color:#fc033d}
 .bd-media-gallery{display:none;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:max-content;align-content:start;align-items:start;gap:8px;width:100%;height:min(48vh,320px);min-height:180px;flex:0 1 auto;overflow-y:scroll;overflow-x:hidden;padding:8px;box-sizing:border-box;background:#141414;border:1px solid #333;border-radius:6px;scrollbar-width:auto;scrollbar-color:#687783 #151515}
 .bd-media-gallery .bd-media-empty-row{grid-column:1/-1}
 .bd-media-left.is-thumbs .bd-media-table{display:none}
 .bd-media-left.is-thumbs .bd-media-gallery{display:grid}
 .bd-media-card{appearance:none;position:relative;min-width:0;padding:4px;background:#161616;border:1px solid #333;border-radius:6px;color:#ddd;cursor:pointer;text-align:left;font:inherit;overflow:hidden}
-.bd-media-card:hover,.bd-media-card.selected{border-color:#4fff8f;background:#202820}
+.bd-media-card:hover,.bd-media-card.selected{border-color:#fc033d;background:#281418}
 .bd-media-card img,.bd-media-card video,.bd-media-card .bd-media-card-audio{display:block;width:100%;height:94px;object-fit:cover;background:#090909;border-radius:4px}
 .bd-media-card-audio{display:flex;align-items:center;justify-content:center;color:#9a9a9a;font-size:28px}
 .bd-media-card-has-video::after{content:"▶";position:absolute;right:8px;bottom:22px;width:18px;height:18px;border-radius:9px;background:rgba(0,0,0,.55);color:#fff;font-size:9px;line-height:18px;text-align:center;pointer-events:none}
@@ -1008,7 +992,7 @@ const STYLES = `
 .bd-smart-split-msg{width:100%;box-sizing:border-box;font-size:11px;line-height:1.4;color:#f66;padding:0 2px;min-height:0}
 .bd-smart-split-msg.hidden{display:none!important}
 .bd-smart-split-msg.ok{color:#8c8}
-.bd-external-groups-msg{width:100%;box-sizing:border-box;font-size:11px;line-height:1.45;color:#9ad;padding:8px 10px;margin:0 0 4px;background:#152018;border:1px solid #2f4a38;border-radius:6px}
+.bd-external-groups-msg{width:100%;box-sizing:border-box;font-size:11px;line-height:1.45;color:#9ad;padding:8px 10px;margin:0 0 4px;background:#201416;border:1px solid #4a2028;border-radius:6px}
 .bd-external-groups-msg.hidden{display:none!important}
 .bd-wrap.bd-external-groups .bd-batch-card,.bd-wrap.bd-external-groups .bd-fl2v-shot{opacity:.48;pointer-events:none}
 .bd-wrap.bd-external-groups .bd-run-select-bar,.bd-wrap.bd-external-groups .bd-batch-run-check,.bd-wrap.bd-external-groups .bd-run-select-all-wrap{pointer-events:auto;opacity:1}
@@ -1025,7 +1009,7 @@ const STYLES = `
 .bd-stage-badge:hover{color:#fff;background:rgba(0,0,0,.8)}
 .bd-frame-jump{display:inline-flex;align-items:center;gap:4px;color:#ddd;font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .bd-frame-jump .bd-frame-input{width:64px;background:#181818;border:1px solid #444;border-radius:4px;color:#eee;padding:4px 4px;font-size:11px;text-align:center;-moz-appearance:textfield}
-.bd-frame-jump .bd-frame-input:focus{border-color:#4fff8f;outline:none}
+.bd-frame-jump .bd-frame-input:focus{border-color:#fc033d;outline:none}
 .bd-frame-jump .bd-frame-input::-webkit-outer-spin-button,.bd-frame-jump .bd-frame-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .bd-frame-jump .bd-frame-total{color:#888;min-width:2.5em}
 .bd-controls{width:100%;box-sizing:border-box;background:#151515;border:1px solid #222;border-radius:0 0 6px 6px;padding:8px 10px;margin-top:0;flex-shrink:0}
@@ -1044,7 +1028,7 @@ const STYLES = `
 .bd-out-audio-wrap,.bd-out-source-wrap,.bd-out-preface-wrap{display:inline-flex;align-items:center;gap:6px}
 .bd-out-source-wrap.hidden,.bd-out-preface-wrap.hidden{display:none}
 .bd-output .bd-out-source-wrap label,.bd-output .bd-out-preface-wrap label{display:inline-flex;align-items:center;gap:4px;margin:0;cursor:pointer;line-height:1}
-.bd-output .bd-out-source-wrap input[type=checkbox],.bd-output .bd-out-preface-wrap input[type=checkbox]{margin:0;width:13px;height:13px;flex:0 0 auto;align-self:center;accent-color:#4fff8f}
+.bd-output .bd-out-source-wrap input[type=checkbox],.bd-output .bd-out-preface-wrap input[type=checkbox]{margin:0;width:13px;height:13px;flex:0 0 auto;align-self:center;accent-color:#fc033d}
 .bd-output .bd-out-source-wrap label span,.bd-output .bd-out-preface-wrap label span{line-height:1.2;display:inline-block}
 .bd-split{display:block;width:100%;box-sizing:border-box;min-width:0}
 .bd-r2v-common-hint{margin:0 0 8px;font-size:11px;line-height:1.4;color:#9ab;opacity:.95}
@@ -1053,7 +1037,7 @@ const STYLES = `
 .bd-r2v-common-titles{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
 .bd-r2v-common-titles b{margin:0}
 .bd-r2v-common-status{display:none;font-size:11px;color:#8a9}
-.bd-r2v-common-status.on{color:#8fdfb0}
+.bd-r2v-common-status.on{color:#ff6b87}
 .bd-panel.bd-r2v-common-panel .bd-r2v-common-status{display:inline}
 .bd-r2v-common-actions{display:none;align-items:center;gap:8px;flex:0 0 auto}
 .bd-panel.bd-r2v-common-panel .bd-r2v-common-actions{display:flex}
@@ -1080,13 +1064,13 @@ const STYLES = `
 .bd-btn-del-split{background:#3a2020;border-color:#e66;color:#f88}
 .bd-btn-del-split:hover{background:#4a1515;border-color:#f88;color:#fcc}
 .bd-btn-sm{padding:3px 8px;font-size:10px}
-.bd-btn-run-select.active{background:#1a3a2a;color:#4fff8f;border-color:#4fff8f}
+.bd-btn-run-select.active{background:#3a141c;color:#fc033d;border-color:#fc033d}
 .bd-output .bd-btn-live-preview{margin-left:auto;background:#222;border-color:#333;color:#aaa;white-space:nowrap;height:29px;min-height:29px;padding:4px 12px}
 .bd-output .bd-btn-live-preview:hover{background:#2a2a2a;border-color:#555;color:#ddd}
-.bd-output .bd-btn-live-preview.active{background:#1a3a2a;color:#4fff8f;border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35)}
+.bd-output .bd-btn-live-preview.active{background:#3a141c;color:#fc033d;border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35)}
 .bd-live-sample{width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:linear-gradient(165deg,#1a1a1a 0%,#121212 100%);border:1px solid #333;border-radius:10px;flex-shrink:0}
 .bd-live-sample.hidden{display:none!important}
-.bd-live-sample.receiving{border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35)}
+.bd-live-sample.receiving{border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35)}
 .bd-live-sample-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .bd-live-sample-head b{color:#f0f0f0;font-size:12px;font-weight:650;letter-spacing:.02em}
 .bd-live-sample-head .bd-meta{color:#888;font-size:11px}
@@ -1101,23 +1085,23 @@ const STYLES = `
 .bd-run-select-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:10px;color:#aaa}
 .bd-run-select-all-wrap{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#aaa;cursor:pointer;user-select:none;margin-left:2px}
 .bd-run-select-all-wrap.hidden{display:none!important}
-.bd-run-select-all-wrap input{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#4fff8f}
+.bd-run-select-all-wrap input{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#fc033d}
 .bd-run-select-bar.hidden{display:none!important}
-.bd-batch-run-check{margin-right:6px;width:14px;height:14px;cursor:pointer;accent-color:#4fff8f;flex-shrink:0}
-.bd-btn-primary{background:#1a3a2a;border-color:#4fff8f;color:#4fff8f}
+.bd-batch-run-check{margin-right:6px;width:14px;height:14px;cursor:pointer;accent-color:#fc033d;flex-shrink:0}
+.bd-btn-primary{background:#3a141c;border-color:#fc033d;color:#fc033d}
 .bd-mode{display:flex;border:1px solid #333;border-radius:4px;overflow:hidden}
 .bd-mode button{border:none;background:#222;color:#aaa;padding:6px 12px;font-size:11px;cursor:pointer}
 .bd-mode button.active{background:#333;color:#fff}
 .bd-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0}
 .bd-tl-zoom{display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
 .bd-tl-zoom.hidden{display:none!important}
-.bd-btn.bd-btn-zoom.active{background:#1a3a2a;color:#4fff8f;border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35)}
-.bd-tl-zoom-slider{width:128px;height:18px;margin:0;accent-color:#4fff8f;cursor:pointer;flex-shrink:0;touch-action:none}
+.bd-btn.bd-btn-zoom.active{background:#3a141c;color:#fc033d;border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35)}
+.bd-tl-zoom-slider{width:128px;height:18px;margin:0;accent-color:#fc033d;cursor:pointer;flex-shrink:0;touch-action:none}
 .bd-bounds,.bd-timecode{color:#aaa;font-size:11px}
 .bd-timecode{color:#fff;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .bd-player .bd-timecode{min-width:88px;font-size:11px;color:#ddd}
 .bd-icon-btn{background:#2a2a2a;border:1px solid #444;color:#eee;cursor:pointer;padding:6px 10px;border-radius:4px}
-.bd-icon-btn.active{background:#1a3a2a;color:#4fff8f;border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35)}
+.bd-icon-btn.active{background:#3a141c;color:#fc033d;border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35)}
 .bd-seek{flex:1;min-width:120px;height:6px}
 .bd-panel{width:100%;box-sizing:border-box;background:#222;border:1px solid #111;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:6px}
 .bd-panel.bd-rv2v-panel,.bd-panel.bd-v2v-panel{background:linear-gradient(165deg,#1c1c1c 0%,#141414 52%,#111 100%);border:1px solid #2c2c2c;border-radius:12px;padding:12px 14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);gap:10px}
@@ -1157,7 +1141,7 @@ const STYLES = `
 .bd-wrap.locale-en .bd-rv2v-layout .bd-prompt-col .bd-label,.bd-wrap.locale-en .bd-v2v-layout .bd-prompt-col .bd-label{text-transform:uppercase;letter-spacing:.08em}
 .bd-prompt{width:100%;min-height:96px;background:#181818;border:1px solid #333;border-radius:6px;color:#eee;padding:8px;resize:vertical;font-size:12px;box-sizing:border-box;font-family:inherit;line-height:1.35;flex:1}
 .bd-prompt-col .bd-token-wrap{flex:1 1 auto;min-height:96px;width:100%}
-.bd-ref.bd-ref-flash,.bd-batch-ref.bd-ref-flash,.bd-ref-audio.bd-ref-flash,.bd-batch-audio.bd-ref-flash,.bd-batch-video.bd-ref-flash{outline:2px solid #4fff8f;outline-offset:1px;border-color:#4fff8f!important}
+.bd-ref.bd-ref-flash,.bd-batch-ref.bd-ref-flash,.bd-ref-audio.bd-ref-flash,.bd-batch-audio.bd-ref-flash,.bd-batch-video.bd-ref-flash{outline:2px solid #fc033d;outline-offset:1px;border-color:#fc033d!important}
 .bd-rv2v-layout .bd-prompt,.bd-v2v-layout .bd-prompt{min-height:220px;background:#101010;border-color:#2e2e2e;border-radius:8px;padding:10px;font-size:12px;line-height:1.45}
 .bd-v2v-layout .bd-prompt{min-height:180px}
 .bd-prompt-negative{display:none!important}
@@ -1178,7 +1162,7 @@ const STYLES = `
 .bd-rv2v-layout .bd-ref:not(.has-img) .bd-ref-tag,.bd-rv2v-layout .bd-ref:not(.has-img) .cap{position:static;padding:0;background:none;color:#666;font-weight:500}
 .bd-rv2v-layout .bd-ref.has-img .bd-ref-tag{display:block}
 .bd-rv2v-layout .bd-ref img{object-fit:contain;object-position:center;background:#000}
-.bd-rv2v-layout .bd-ref .dot{position:absolute;left:6px;top:6px;width:7px;height:7px;border-radius:50%;background:#4fff8f;box-shadow:0 0 0 2px rgba(0,0,0,.5);z-index:2}
+.bd-rv2v-layout .bd-ref .dot{position:absolute;left:6px;top:6px;width:7px;height:7px;border-radius:50%;background:#fc033d;box-shadow:0 0 0 2px rgba(0,0,0,.5);z-index:2}
 .bd-rv2v-layout .bd-ref .x{top:4px;right:4px;width:20px;height:20px;border-radius:6px;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72);color:#ff9a9a;font-size:14px;font-weight:700;z-index:3}
 .bd-rv2v-layout .bd-ref:hover .x,.bd-rv2v-layout .bd-ref:focus-within .x{display:flex}
 .bd-rv2v-layout .bd-ref.bd-r2v-pic-hidden{display:none!important}
@@ -1190,7 +1174,7 @@ const STYLES = `
 .bd-ref:hover .x{display:block}
 .bd-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .bd-meta{color:#888;font-size:10px}
-.bd-video-tag{color:#4fff8f;font-size:10px}
+.bd-video-tag{color:#fc033d;font-size:10px}
 .bd-num{width:42px;background:#181818;border:1px solid #333;border-radius:4px;color:#eee;padding:5px 4px;font-size:11px;text-align:center;-moz-appearance:textfield}
 .bd-num::-webkit-outer-spin-button,.bd-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .bd-output label{color:#888;font-size:10px;white-space:nowrap}
@@ -1199,14 +1183,14 @@ const STYLES = `
 /* Do not use margin-top:auto — with an oversized min-height it creates a huge empty gap above the status bar. */
 .bd-run-status{width:100%;box-sizing:border-box;padding:8px 10px;background:#151515;border:1px solid #333;border-radius:6px;display:flex;flex-direction:column;gap:5px;margin-top:6px;margin-bottom:0;flex-shrink:0}
 .bd-run-status.idle .bd-run-title{color:#888}
-.bd-run-status.active .bd-run-title{color:#4fff8f}
+.bd-run-status.active .bd-run-title{color:#fc033d}
 .bd-run-status.done .bd-run-title{color:#7a9cff}
 .bd-run-status.error .bd-run-title{color:#f88}
 .bd-run-title{font-size:11px;font-weight:600;line-height:1.35}
 .bd-run-detail{color:#999;font-size:10px;line-height:1.4}
 .bd-run-bars{display:flex;flex-direction:column;gap:3px}
 .bd-run-bar{height:5px;background:#2a2a2a;border-radius:3px;overflow:hidden}
-.bd-run-bar-fill{height:100%;background:linear-gradient(90deg,#2a6b4a,#4fff8f);border-radius:3px;transition:width .15s ease}
+.bd-run-bar-fill{height:100%;background:linear-gradient(90deg,#8a1226,#fc033d);border-radius:3px;transition:width .15s ease}
 .bd-run-bar-sub .bd-run-bar-fill{background:linear-gradient(90deg,#3a5080,#7a9cff)}
 .hidden{display:none!important}
 .bd-controls.hidden{display:none!important}
@@ -1235,7 +1219,7 @@ const STYLES = `
 .bd-ref-audio.has-audio:hover,.bd-ref-video.has-video:hover{background:#1a2a1a}
 .bd-rv2v-layout .bd-ref-audio .bd-r2v-thumb{width:100%;height:44px;border-radius:6px}
 .bd-rv2v-layout .bd-ref-video .bd-r2v-thumb,.bd-rv2v-layout .bd-ref-video .bd-r2v-thumb-video{width:100%;height:auto;aspect-ratio:16/9;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0c1014;border:1px solid #222;color:#6a7a8a;position:relative}
-.bd-rv2v-layout .bd-ref-audio.has-audio .bd-r2v-thumb,.bd-rv2v-layout .bd-ref-video.has-video .bd-r2v-thumb{border-color:#3a5a45;color:#8fdfb0;background:#152018}
+.bd-rv2v-layout .bd-ref-audio.has-audio .bd-r2v-thumb,.bd-rv2v-layout .bd-ref-video.has-video .bd-r2v-thumb{border-color:#5a2830;color:#ff6b87;background:#201416}
 .bd-rv2v-layout .bd-ref-audio .bd-r2v-meta,.bd-rv2v-layout .bd-ref-video .bd-r2v-meta{flex-direction:row;align-items:center;justify-content:space-between;gap:4px}
 .bd-rv2v-layout .bd-ref-audio audio.bd-r2v-media{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
 .bd-rv2v-layout .bd-ref-video video.bd-r2v-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
@@ -1249,14 +1233,14 @@ const STYLES = `
 .bd-r2v-section-count:empty{display:none}
 .bd-r2v-section-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .bd-r2v-pick-existing{background:transparent;border:1px solid #3a3a3a;color:#c8c8c8;border-radius:6px;padding:2px 8px;font-size:10px;cursor:pointer;line-height:1.4;white-space:nowrap}
-.bd-r2v-pick-existing:hover{border-color:#4fff8f;color:#4fff8f}
+.bd-r2v-pick-existing:hover{border-color:#fc033d;color:#fc033d}
 .bd-r2v-pick-existing:disabled{opacity:.4;cursor:not-allowed;border-color:#333;color:#666}
 .bd-prompt-layout:not(.bd-rv2v-layout) .bd-r2v-section-head{display:contents}
 .bd-prompt-layout:not(.bd-rv2v-layout) .bd-r2v-section-count,
 .bd-prompt-layout:not(.bd-rv2v-layout) .bd-r2v-pick-existing{display:none}
 .bd-continuous-ref{display:flex;align-items:center;gap:6px;font-size:10px;color:#aaa;user-select:none;margin-left:8px}
 .bd-continuous-ref label{display:flex;align-items:center;gap:4px;cursor:pointer}
-.bd-continuous-ref input[type="checkbox"]{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#4fff8f}
+.bd-continuous-ref input[type="checkbox"]{width:14px;height:14px;margin:0;cursor:pointer;accent-color:#fc033d}
 .bd-gen-fc-row{display:flex;align-items:center;gap:6px;margin-top:6px}
 ${IMAGE_BATCH_STYLES}
 ${FL2V_STYLES}
@@ -1516,7 +1500,7 @@ function buildClipFrameMap(clipIndex, count) {
     return Array.from({ length: count }, (_, i) => ({ clip: clipIndex, frame: i }));
 }
 
-const CLIP_SEGMENT_COLORS = ["rgba(255,200,50,0.9)", "rgba(102,170,255,0.9)", "rgba(79,255,143,0.9)", "rgba(255,102,170,0.9)"];
+const CLIP_SEGMENT_COLORS = ["rgba(255,200,50,0.9)", "rgba(102,170,255,0.9)", "rgba(252,3,61,0.9)", "rgba(168,85,247,0.9)"];
 
 function getDirectorUiHeight(editor) {
     if (editor?.getDirectorMode?.() === "prompt_batch") {
@@ -2823,7 +2807,6 @@ class MiniMaxH3DirectorEditor {
                     </div>
                     <button type="button" class="bd-btn" data-a="pack-import" data-i18n="toolbar.importPack" data-i18n-title="tooltip.importPack">导入导演包</button>
                     <button type="button" class="bd-btn" data-a="pack-export" data-i18n="toolbar.exportPack" data-i18n-title="tooltip.exportPack">导出导演包</button>
-                    <button type="button" class="bd-btn" data-a="lang-toggle" data-i18n="toolbar.langToggle" data-i18n-title="toolbar.langToggleTitle">EN</button>
                     <div class="bd-bounds" data-r="bounds">起点: 0.00 | 终点: -</div>
                     <div class="bd-timecode" data-r="timecode">0.00s</div>
                 </div>
@@ -2833,7 +2816,6 @@ class MiniMaxH3DirectorEditor {
         this.root.appendChild(toolbarWrap);
         this.smartSplitMsgEl = toolbarWrap.querySelector('[data-r="smart-split-msg"]');
         this.externalGroupsMsgEl = toolbarWrap.querySelector('[data-r="external-groups-msg"]');
-        this.langToggleBtn = toolbarWrap.querySelector('[data-a="lang-toggle"]');
 
         this.mainBody = document.createElement("div");
         this.mainBody.className = "bd-main";
@@ -3342,7 +3324,6 @@ class MiniMaxH3DirectorEditor {
         bind('[data-a="del"]', () => this.deleteSelectedSegment());
         bind('[data-a="mode-global"]', () => this.setEditMode("global"));
         bind('[data-a="mode-segment"]', () => this.setEditMode("segment"));
-        bind('[data-a="lang-toggle"]', () => toggleLocale());
         bind('[data-a="zoom-toggle"]', () => this.toggleTimelineZoom());
         bindPackActions(this);
         bind('[data-a="play"]', () => this.togglePlay());
@@ -4232,7 +4213,7 @@ class MiniMaxH3DirectorEditor {
             this.runSelectSummary.textContent = count === 1
                 ? t("runSelect.sampleOne", { unit: label, nums, hint: exportHint })
                 : t("runSelect.sampleMany", { count, unit: label, nums, hint: exportHint });
-            this.runSelectSummary.style.color = "#4fff8f";
+            this.runSelectSummary.style.color = "#fc033d";
         }
     }
 
@@ -8824,8 +8805,8 @@ class MiniMaxH3DirectorEditor {
         for (const joint of this._continuityJointList(segs)) {
             const g = this._continuityJointGeometry(joint.frame, width);
             const on = joint.on;
-            const accent = on ? "#4fff8f" : "#7a7a7a";
-            const fill = on ? "rgba(18, 48, 32, 0.96)" : "rgba(38, 38, 38, 0.94)";
+            const accent = on ? "#fc033d" : "#7a7a7a";
+            const fill = on ? "rgba(58, 16, 24, 0.96)" : "rgba(38, 38, 38, 0.94)";
             const rx = g.x - g.w / 2;
             ctx.save();
             this._roundRectPath(ctx, rx, g.y, g.w, g.h, 8);
@@ -8848,7 +8829,7 @@ class MiniMaxH3DirectorEditor {
             ctx.strokeStyle = accent;
             ctx.lineWidth = 1;
             ctx.stroke();
-            ctx.fillStyle = on ? "#b8ffd0" : "#9a9a9a";
+            ctx.fillStyle = on ? "#ffb8c5" : "#9a9a9a";
             ctx.fillText(label, g.x, ly + lh / 2);
             ctx.restore();
         }
@@ -10040,8 +10021,8 @@ class MiniMaxH3DirectorEditor {
             const idx = (Number.isFinite(index) && index >= 0)
                 ? index
                 : Math.max(0, segs.indexOf(seg));
-            const fills = ["#2a2618", "#182028", "#182818", "#281820"];
-            const accents = ["#d4a017", "#66aaff", "#4fff8f", "#ff66aa"];
+            const fills = ["#2a2618", "#182028", "#281418", "#281820"];
+            const accents = ["#d4a017", "#66aaff", "#fc033d", "#ff66aa"];
             ctx.fillStyle = fills[idx % fills.length];
             ctx.fillRect(startX, y0 + 1, pxWidth, h - 2);
             ctx.fillStyle = accents[idx % accents.length];
@@ -10165,13 +10146,13 @@ class MiniMaxH3DirectorEditor {
         // Opaque plate so the control never blends into timeline chrome.
         ctx.fillStyle = "#0e0e0e";
         ctx.fillRect(x - 1, y - 1, s + 2, s + 2);
-        ctx.fillStyle = enabled ? "#1a3a2a" : "#1c1c1c";
-        ctx.strokeStyle = enabled ? "#4fff8f" : "#888";
+        ctx.fillStyle = enabled ? "#3a141c" : "#1c1c1c";
+        ctx.strokeStyle = enabled ? "#fc033d" : "#888";
         ctx.lineWidth = 1;
         ctx.fillRect(x, y, s, s);
         ctx.strokeRect(x + 0.5, y + 0.5, s - 1, s - 1);
         if (enabled) {
-            ctx.fillStyle = "#4fff8f";
+            ctx.fillStyle = "#fc033d";
             ctx.font = "11px sans-serif";
             ctx.textAlign = "left";
             ctx.textBaseline = "alphabetic";
@@ -10185,8 +10166,8 @@ class MiniMaxH3DirectorEditor {
         const y0 = TRACK_Y;
         const y1 = TRACK_Y + TRACK_H;
         ctx.save();
-        ctx.strokeStyle = "#4fff8f";
-        ctx.fillStyle = "#4fff8f";
+        ctx.strokeStyle = "#fc033d";
+        ctx.fillStyle = "#fc033d";
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.moveTo(ix, y0);
@@ -10228,12 +10209,12 @@ class MiniMaxH3DirectorEditor {
         ctx.fillRect(gx + 4, gy + 5, gw, gh);
         ctx.globalAlpha = 0.95;
         this.drawSegmentThumbnails(ctx, seg, gx, gw, gy, gh, item.arrayIndex);
-        ctx.strokeStyle = "#4fff8f";
+        ctx.strokeStyle = "#fc033d";
         ctx.lineWidth = 2.5;
         ctx.strokeRect(gx + 0.5, gy + 0.5, gw - 1, gh - 1);
-        ctx.fillStyle = "rgba(20,40,28,0.9)";
+        ctx.fillStyle = "rgba(50,15,22,0.9)";
         ctx.fillRect(gx + 4, gy + 4, 44, 16);
-        ctx.fillStyle = "#4fff8f";
+        ctx.fillStyle = "#fc033d";
         ctx.font = "bold 10px sans-serif";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
@@ -10480,28 +10461,28 @@ class MiniMaxH3DirectorEditor {
             const clipIdx = this.usesBatchTimeline() ? i : this.getSegmentClipIndex(seg);
             const clipColor = CLIP_SEGMENT_COLORS[clipIdx % CLIP_SEGMENT_COLORS.length];
             if (isDropTarget) {
-                this.ctx.fillStyle = "rgba(79,255,143,0.14)";
+                this.ctx.fillStyle = "rgba(252,3,61,0.14)";
                 this.ctx.fillRect(x0, TRACK_Y, pxW, TRACK_H);
-                this.ctx.strokeStyle = "#4fff8f";
+                this.ctx.strokeStyle = "#fc033d";
                 this.ctx.lineWidth = 3;
                 this.ctx.setLineDash([7, 4]);
                 this.ctx.strokeRect(x0 + 1, TRACK_Y + 1, pxW - 2, TRACK_H - 2);
                 this.ctx.setLineDash([]);
-                this.ctx.fillStyle = "rgba(20,40,28,0.92)";
+                this.ctx.fillStyle = "rgba(50,15,22,0.92)";
                 const label = this.isFl2vMode() ? t("canvas.swapHere") : t("canvas.insertHere");
                 this.ctx.font = "bold 11px sans-serif";
                 const tw = this.ctx.measureText(label).width + 12;
                 this.ctx.fillRect(x0 + (pxW - tw) / 2, TRACK_Y + 8, tw, 18);
-                this.ctx.fillStyle = "#4fff8f";
+                this.ctx.fillStyle = "#fc033d";
                 this.ctx.textAlign = "center";
                 this.ctx.textBaseline = "middle";
                 this.ctx.fillText(label, x0 + pxW / 2, TRACK_Y + 17);
             } else {
-                this.ctx.strokeStyle = running || sel ? "#4fff8f" : clipColor;
+                this.ctx.strokeStyle = running || sel ? "#fc033d" : clipColor;
                 this.ctx.lineWidth = running ? 3 : sel ? 2.5 : 1.5;
                 this.ctx.strokeRect(x0 + 0.5, TRACK_Y + 0.5, pxW - 1, TRACK_H - 1);
                 if (sel && !running) {
-                    this.ctx.fillStyle = "rgba(79,255,143,0.08)";
+                    this.ctx.fillStyle = "rgba(252,3,61,0.08)";
                     this.ctx.fillRect(x0 + 1, TRACK_Y + 1, Math.max(0, pxW - 2), TRACK_H - 2);
                 }
             }
@@ -12921,6 +12902,7 @@ app.registerExtension({
     },
     async loadedGraphNode(node) {
         if (!isMiniMaxH3DirectorNode(node)) return;
+        if (!node.color) node.color = "#fc033d";
         normalizeDirectorOutputs(node);
         pruneDirectorDomWidgets(node);
         if (!node._minimaxDomWidget) return;
@@ -12937,8 +12919,8 @@ app.registerExtension({
             BDGROUP(node, inputName, inputData) {
                 const w = makeGroupHeaderWidget(inputName, inputData);
                 if (!node.widgets) node.widgets = [];
-                node.widgets.push(w);
-                return w;
+                if (!node.widgets.includes(w)) node.widgets.push(w);
+                return { widget: w };
             },
         };
     },
@@ -13011,6 +12993,7 @@ app.registerExtension({
             queueMicrotask(() => applyDirectorWidgetLabels(this));
             setTimeout(() => applyDirectorWidgetLabels(this), 0);
             this.size = [1000, 680];
+            this.color = "#fc033d";
 
             const existingDom = pruneDirectorDomWidgets(this);
             // Idempotent: reuse the host if onNodeCreated / graph restore already mounted one.

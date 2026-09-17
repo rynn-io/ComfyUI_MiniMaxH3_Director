@@ -25,7 +25,7 @@ import { t } from "./minimax_i18n.js";
 export const FL2V_STYLES = `
 .bd-fl2v-detail-wrap{width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:8px}
 .bd-fl2v-hint{color:#aaa;font-size:11px;line-height:1.45;background:#181818;border:1px solid #333;border-radius:6px;padding:8px 10px}
-.bd-fl2v-hint b{color:#4fff8f;font-weight:600}
+.bd-fl2v-hint b{color:#fc033d;font-weight:600}
 .bd-fl2v-workbench{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;width:100%;box-sizing:border-box}
 .bd-fl2v-workbench .bd-live-sample{flex:1 1 320px;min-width:280px;max-width:560px;min-height:320px;display:flex;flex-direction:column}
 .bd-fl2v-workbench .bd-live-sample .bd-live-sample-body{flex:1 1 auto;min-height:260px;max-height:none}
@@ -34,7 +34,7 @@ export const FL2V_STYLES = `
 .bd-fl2v-shots{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
 .bd-fl2v-shot{width:220px;box-sizing:border-box;background:#1a1a1a;border:1px solid #333;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:6px;cursor:default;transition:border-color .15s,opacity .15s}
 .bd-fl2v-shot:hover{border-color:#555}
-.bd-fl2v-shot.selected{border-color:#4fff8f;box-shadow:0 0 0 1px rgba(79,255,143,.35)}
+.bd-fl2v-shot.selected{border-color:#fc033d;box-shadow:0 0 0 1px rgba(252,3,61,.35)}
 .bd-fl2v-shot.shot-dragging{opacity:.4}
 .bd-fl2v-shot.shot-drag-over{border-color:#5ec8ff;box-shadow:0 0 0 1px rgba(94,200,255,.45)}
 .bd-fl2v-shot-head{display:flex;align-items:center;justify-content:flex-start;gap:6px;cursor:default;user-select:none;min-height:18px}
@@ -50,11 +50,11 @@ export const FL2V_STYLES = `
 .bd-fl2v-slot{position:relative;aspect-ratio:var(--fl2v-slot-ar,16/9);border:1px dashed #555;border-radius:4px;background:#111;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .bd-fl2v-slot.has-img{border-style:solid;border-color:#444;cursor:grab}
 .bd-fl2v-slot.has-img:active{cursor:grabbing}
-.bd-fl2v-slot.drag-over{border-color:#4fff8f;border-style:solid;background:#152018}
+.bd-fl2v-slot.drag-over{border-color:#fc033d;border-style:solid;background:#201416}
 .bd-fl2v-slot.dragging{opacity:.45}
 .bd-fl2v-slot img{height:100%;width:auto;max-height:100%;display:block;pointer-events:none;flex-shrink:0}
 .bd-fl2v-slot .tag{position:absolute;top:4px;padding:1px 5px;border-radius:2px;font-size:9px;font-weight:700;line-height:1.4;pointer-events:none;z-index:2}
-.bd-fl2v-slot .tag.start{left:4px;right:auto;background:rgba(79,255,143,.92);color:#111}
+.bd-fl2v-slot .tag.start{left:4px;right:auto;background:rgba(252,3,61,.92);color:#fff}
 .bd-fl2v-slot .tag.end{left:auto;right:4px;background:rgba(240,160,48,.92);color:#111}
 .bd-fl2v-slot .ph{color:#666;font-size:10px;text-align:center;padding:4px;line-height:1.35;pointer-events:none}
 /* Clear sits outside the draggable slot so HTML5 DnD cannot steal the click. */
@@ -1515,9 +1515,9 @@ export function drawFl2vSegmentThumbnails(editor, ctx, seg, startX, pxWidth, y0,
     ctx.textBaseline = "middle";
     if (hasStart) {
         const startBadgeW = Math.max(38, Math.ceil(ctx.measureText(startTag).width) + 12);
-        ctx.fillStyle = "rgba(79,255,143,0.92)";
+        ctx.fillStyle = "rgba(252,3,61,0.92)";
         ctx.fillRect(startX + 4, badgeY, startBadgeW, 14);
-        ctx.fillStyle = "#111";
+        ctx.fillStyle = "#fff";
         ctx.fillText(startTag, startX + 8, badgeY + 7);
     }
     if (hasEnd) {

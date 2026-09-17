@@ -1,4 +1,4 @@
-﻿/** Director prompt @-mentions + official-tag token chips (<Picture N> / <Video K> / <Audio J>).
+/** Director prompt @-mentions + official-tag token chips (<Picture N> / <Video K> / <Audio J>).
  *
  * Canonical storage is always the official MiniMax tag string (textarea.value).
  * The visible surface is a contenteditable that renders atomic bd-token chips.
@@ -33,7 +33,7 @@ const MENTION_STYLES = `
 }
 .bd-mention-thumb.bd-mention-thumb-video{color:#7db7ff;background:#152030;border-color:#2a4a6a}
 .bd-mention-thumb.bd-mention-thumb-audio{color:#e0b06a;background:#2a2010;border-color:#5a4530}
-.bd-mention-item .bd-mention-label{font-weight:600;color:#4fff8f}
+.bd-mention-item .bd-mention-label{font-weight:600;color:#fc033d}
 .bd-mention-empty{padding:10px 12px;font-size:11px;color:#888;text-align:center;line-height:1.4}
 
 .bd-token-wrap{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;flex:1 1 auto;width:100%;box-sizing:border-box}
@@ -48,7 +48,7 @@ const MENTION_STYLES = `
   font-size:12px;font-family:inherit;line-height:1.45;outline:none;overflow:auto;white-space:pre-wrap;word-break:break-word;
   resize:vertical
 }
-.bd-token-editor:focus{border-color:#4a7a5a;box-shadow:0 0 0 1px rgba(79,255,143,.18)}
+.bd-token-editor:focus{border-color:#7a2030;box-shadow:0 0 0 1px rgba(252,3,61,.18)}
 .bd-token-editor:empty:before{content:attr(data-placeholder);color:#666;pointer-events:none}
 .bd-token-resize-handle{
   position:absolute;left:50%;bottom:0;z-index:4;width:96px;max-width:40%;height:18px;
@@ -58,12 +58,12 @@ const MENTION_STYLES = `
 }
 .bd-token-resize-handle::after{
   content:"";width:54px;max-width:72%;height:3px;margin-bottom:3px;border-radius:999px;
-  background:#52665a;box-shadow:0 -4px 0 rgba(82,102,90,.65)
+  background:#662030;box-shadow:0 -4px 0 rgba(102,32,48,.65)
 }
 .bd-token-resize-handle:hover::after,
 .bd-token-resize-handle:focus-visible::after,
 .bd-token-wrap.bd-token-resizing .bd-token-resize-handle::after{
-  background:#4fff8f;box-shadow:0 -4px 0 rgba(79,255,143,.45)
+  background:#fc033d;box-shadow:0 -4px 0 rgba(252,3,61,.45)
 }
 body.bd-token-resizing{cursor:ns-resize!important;user-select:none!important}
 .bd-rv2v-layout .bd-token-editor,.bd-v2v-layout .bd-token-editor{
@@ -83,13 +83,13 @@ body.bd-token-resizing{cursor:ns-resize!important;user-select:none!important}
 .bd-token{
   display:inline-flex;align-items:center;gap:4px;max-width:100%;
   margin:0 2px;padding:1px 7px 1px 3px;border-radius:999px;vertical-align:baseline;
-  border:1.5px solid #3dcc7a;background:rgba(61,204,122,.12);color:#c8ffd9;
+  border:1.5px solid #fc033d;background:rgba(252,3,61,.12);color:#ffd8de;
   font-size:11px;font-weight:600;line-height:1.4;user-select:none;cursor:default;white-space:nowrap
 }
 .bd-token[contenteditable="false"]{-webkit-user-modify:read-only}
 .bd-token.bd-token-image{
-  border-color:#3dcc7a;background:rgba(61,204,122,.14);color:#c8ffd9;
-  box-shadow:0 0 0 1px rgba(61,204,122,.22)
+  border-color:#fc033d;background:rgba(252,3,61,.14);color:#ffd8de;
+  box-shadow:0 0 0 1px rgba(252,3,61,.22)
 }
 .bd-token.bd-token-video{
   border-color:#4d9fff;background:rgba(77,159,255,.16);color:#d4e9ff;
@@ -108,7 +108,7 @@ body.bd-token-resizing{cursor:ns-resize!important;user-select:none!important}
   width:16px;height:16px;border-radius:3px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
   font-size:10px;line-height:1;background:rgba(0,0,0,.35);color:inherit
 }
-.bd-token-image .bd-token-glyph{background:rgba(61,204,122,.28);color:#8dffb8}
+.bd-token-image .bd-token-glyph{background:rgba(252,3,61,.28);color:#ff8da0}
 .bd-token-video .bd-token-glyph{background:rgba(77,159,255,.32);color:#9cc8ff}
 .bd-token-audio .bd-token-glyph{background:rgba(232,162,58,.32);color:#ffd48a}
 .bd-token-label{max-width:7em;overflow:hidden;text-overflow:ellipsis}

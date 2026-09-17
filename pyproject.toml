@@ -14,12 +14,12 @@ dynamic = ["dependencies"]
 dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
-Repository = "https://github.com/AIMixer/ComfyUI_MiniMaxH3_Director"
-Documentation = "https://github.com/AIMixer/ComfyUI_MiniMaxH3_Director#readme"
-"Bug Tracker" = "https://github.com/AIMixer/ComfyUI_MiniMaxH3_Director/issues"
+Repository = "https://github.com/rynn-io/ComfyUI_MiniMaxH3_Director"
+Documentation = "https://github.com/rynn-io/ComfyUI_MiniMaxH3_Director#readme"
+"Bug Tracker" = "https://github.com/rynn-io/ComfyUI_MiniMaxH3_Director/issues"
 
 [tool.comfy]
-PublisherId = "aimixer"
+PublisherId = "rynn-io"
 DisplayName = "MiniMax H3 Director"
 Icon = ""
 requires-comfyui = ">=0.30.0"
