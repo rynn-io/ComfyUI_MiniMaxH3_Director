@@ -33,10 +33,10 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "MiniMaxH3Director": "MiniMaxH3Director",
+    "MiniMaxH3Director": "MiniMaxH3Director - pineapple0wl",
     "MiniMaxH3DirectorRefine": "MiniMax H3 Director Refine",
     "MiniMaxH3DirectorFaceRefine": "MiniMax H3 Director FaceRefine",
-    "ComfyMiniMaxH3Director": "MiniMaxH3Director",
+    "ComfyMiniMaxH3Director": "MiniMaxH3Director - pineapple0wl",
     "MiniMaxH3DirectorConditioning": "MiniMax H3 Director Conditioning",
     "MiniMaxH3DirectorPlannerConditioning": "MiniMax H3 Director Planner Conditioning",
     "MiniMaxH3DirectorGroupImageToVideo": "MiniMax H3 Director Group (Image to Video)",

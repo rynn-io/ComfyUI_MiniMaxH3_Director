@@ -12903,6 +12903,9 @@ app.registerExtension({
     async loadedGraphNode(node) {
         if (!isMiniMaxH3DirectorNode(node)) return;
         if (!node.color) node.color = "#fc033d";
+        if (!node.title || node.title === "MiniMaxH3Director") {
+            node.title = "MiniMaxH3Director - pineapple0wl";
+        }
         normalizeDirectorOutputs(node);
         pruneDirectorDomWidgets(node);
         if (!node._minimaxDomWidget) return;
@@ -12994,6 +12997,9 @@ app.registerExtension({
             setTimeout(() => applyDirectorWidgetLabels(this), 0);
             this.size = [1000, 680];
             this.color = "#fc033d";
+            if (!this.title || this.title === "MiniMaxH3Director") {
+                this.title = "MiniMaxH3Director - pineapple0wl";
+            }
 
             const existingDom = pruneDirectorDomWidgets(this);
             // Idempotent: reuse the host if onNodeCreated / graph restore already mounted one.
